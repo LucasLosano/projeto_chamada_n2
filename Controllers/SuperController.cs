@@ -39,6 +39,7 @@ namespace ProjetoN2.Controllers
             try
             {
                 var modelList = DAO.SelectAll();
+                PrepareView();
                 return View(IndexViewName, modelList);
             }
             catch (System.Exception e)

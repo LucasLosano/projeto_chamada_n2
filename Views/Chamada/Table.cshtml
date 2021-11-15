@@ -1,0 +1,21 @@
+<thead class="thead-dark">
+    <tr>
+        <th>Aluno</th>
+        <th>Turma</th>
+        <th>Materia</th>
+        <th>Status</th>
+        <th>Data</th>
+    </tr>
+</thead>
+<tbody>
+    @foreach (var chamada in Model)
+    {
+        <tr>
+            <td>@chamada.AlunoNome</td>
+            <td>@chamada.TurmaNome</td>
+            <td>@chamada.MateriaNome</td>
+            <td>@chamada.Status</td>
+            <td>@chamada.AulaData.ToString("d")</td>
+        </tr>
+    }
+</tbody>

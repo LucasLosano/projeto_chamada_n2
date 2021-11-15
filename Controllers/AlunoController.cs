@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProjetoN2.DAO;
 using ProjetoN2.Models;
 
@@ -8,6 +12,11 @@ namespace ProjetoN2.Controllers
         public AlunoController()
         {
             DAO = new AlunoDAO();
+        }
+
+        public IActionResult Table(AlunoViewModel model)
+        {
+            return PartialView("Table",DAO.SelectAll(model));
         }
 
         protected override void ValidateModel(AlunoViewModel model)
@@ -27,7 +36,9 @@ namespace ProjetoN2.Controllers
 
         protected override void PrepareView()
         {
-            ViewBag.Turmas = ((AlunoDAO)DAO).turmaDAO.SelectAll();
+            var turmas = (new SelectList(((AlunoDAO)DAO).turmaDAO.SelectAll(), "Id", "Id")).ToList();
+            turmas.Insert(0,new SelectListItem("Selecione uma turma","0"));
+            ViewBag.Turmas = turmas;
         }
     }
 }

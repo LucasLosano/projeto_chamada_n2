@@ -37,7 +37,7 @@ namespace ProjetoN2.DAO
             {
                 parameters.Add(new SqlParameter("id", model.Id));
             }
-            parameters.Add(new SqlParameter("nome", model.Nome));
+            parameters.Add(new SqlParameter("nome", model.Nome == null ? "" : model.Nome));
             parameters.Add(new SqlParameter("turma_id", model.TurmaId));
 
             return parameters.ToArray();

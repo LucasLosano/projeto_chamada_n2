@@ -36,7 +36,7 @@ namespace ProjetoN2.DAO
             };
             HelperDAO.ExecuteProcedure("sp_delete", parameters);
         }
-        public virtual List<T> SelectAll()
+        public virtual List<T> SelectAll(T model = null)
         {
             SqlParameter[] parameters = null;
             if(SpSelectName == "sp_select")
@@ -46,6 +46,10 @@ namespace ProjetoN2.DAO
                     new SqlParameter("tabela", Table),
                     new SqlParameter("ordem", "1")
                 };
+            }
+            else if(model != null)
+            {
+                parameters = SetParameters(model);
             }
             
             var dataSet = HelperDAO.ExecuteProcedureSelect(SpSelectName, parameters);

@@ -123,10 +123,10 @@ namespace ProjetoN2.Service
 
                 List<AulaViewModel> aulas = new List<AulaViewModel>();
                 aulas.AddRange( new List<AulaViewModel>(){
-                    new AulaViewModel(){ MateriaId = 1, TurmaId = 1, SalaId = 1 },
-                    new AulaViewModel(){ MateriaId = 2, TurmaId = 1, SalaId = 2 },
-                    new AulaViewModel(){ MateriaId = 3, TurmaId = 1, SalaId = 3 },
-                    new AulaViewModel(){ MateriaId = 4, TurmaId = 1, SalaId = 4 }
+                    new AulaViewModel(){ MateriaId = 1, TurmaId = 1, SalaId = 1, Data = DateTime.UtcNow },
+                    new AulaViewModel(){ MateriaId = 2, TurmaId = 1, SalaId = 2, Data = DateTime.UtcNow },
+                    new AulaViewModel(){ MateriaId = 3, TurmaId = 1, SalaId = 3, Data = DateTime.UtcNow },
+                    new AulaViewModel(){ MateriaId = 4, TurmaId = 1, SalaId = 4, Data = DateTime.UtcNow }
                 });
 
                 foreach (var item in aulas)

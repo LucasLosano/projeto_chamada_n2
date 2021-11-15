@@ -44,7 +44,11 @@ namespace ProjetoN2.DAO
             {
                 parameters.Add(new SqlParameter("id",model.Id));
             }
-            parameters.Add(new SqlParameter("data", DateTime.UtcNow));
+            if(model.ProfessorId != 0)
+            {
+                parameters.Add(new SqlParameter("professor_id",model.ProfessorId));
+            }
+            parameters.Add(new SqlParameter("data", model.Data.Year != 1 ? model.Data : DateTime.Now.AddYears(-100)));
             parameters.Add(new SqlParameter("turma_id", model.TurmaId));
             parameters.Add(new SqlParameter("materia_id", model.MateriaId));
             parameters.Add(new SqlParameter("sala_id", model.SalaId));

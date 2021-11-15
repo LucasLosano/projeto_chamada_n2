@@ -1,3 +1,6 @@
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProjetoN2.DAO;
 using ProjetoN2.Models;
 
@@ -8,6 +11,11 @@ namespace ProjetoN2.Controllers
         public AulaController()
         {
             DAO = new AulaDAO();
+        }
+
+        public IActionResult Table(AulaViewModel model)
+        {
+            return PartialView("Table",DAO.SelectAll(model));
         }
 
         protected override void ValidateModel(AulaViewModel model)
@@ -32,9 +40,21 @@ namespace ProjetoN2.Controllers
 
         protected override void PrepareView()
         {
-            ViewBag.Materias = ((AulaDAO)DAO).materiaDAO.SelectAll();
-            ViewBag.Turmas = ((AulaDAO)DAO).turmaDAO.SelectAll();
-            ViewBag.Salas = ((AulaDAO)DAO).salaDAO.SelectAll();
+            var materias = (new SelectList(((AulaDAO)DAO).materiaDAO.SelectAll(), "Id", "Nome")).ToList();
+            materias.Insert(0,new SelectListItem("Selecione uma materia","0"));
+            ViewBag.Materias = materias;
+
+            var salas = (new SelectList(((AulaDAO)DAO).materiaDAO.SelectAll(), "Id", "Id")).ToList();
+            salas.Insert(0,new SelectListItem("Selecione uma sala","0"));
+            ViewBag.Salas = salas;
+            
+            var turmas = (new SelectList(((AulaDAO)DAO).turmaDAO.SelectAll(), "Id", "Id")).ToList();
+            turmas.Insert(0,new SelectListItem("Selecione uma turma","0"));
+            ViewBag.Turmas = turmas;
+
+            var professores = (new SelectList(((AulaDAO)DAO).materiaDAO.professorDAO.SelectAll(), "Id", "Nome")).ToList();
+            professores.Insert(0,new SelectListItem("Selecione um professor","0"));
+            ViewBag.Professores = professores;
         }
     }
 }

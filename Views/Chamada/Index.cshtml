@@ -1,0 +1,56 @@
+@model IEnumerable<ProjetoN2.Models.ChamadaViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h3>Chamadas</h3>
+    <br><br><br>
+
+    <div class="card bg-dark container">
+        <div class="row pb-3">
+            <input type="hidden" class="form-control" id="AulaId" name="AulaId" value="@ViewBag.AulaId">
+            <div class="col-5">
+                <label class="text-light">Aluno</label>
+                <input class="form-control" id="AlunoNome" name="AlunoNome">
+            </div>
+            <div class="col-5">
+                <label class="text-light">Status</label>
+                <select class="form-control" name="Status" id="Status">
+                    <option value="">Selecione um status</option>
+                    <option value="PRESENTE">PRESENTE</option>
+                    <option value="AUSENTE">AUSENTE</option>
+                </select>
+            </div>
+            <div class="col-1  mt-auto">
+                <input  value="Filtrar" type="button" class="btn btn-outline-light align-middle" onclick="filter()" />
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <table id="table" class="table table-striped table-bordered">
+        
+    </table>
+
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    function filter() {
+        var linkAPI = '/Chamada/Table';
+        $.ajax({
+            url: linkAPI,
+            data: {
+                AlunoNome: $("#AlunoNome").val(),
+                Status: $("#Status").val(),
+                AulaId: $("#AulaId").val()
+            },
+            success: function (dados) {
+                $("#table").html(dados)
+            }
+        });
+    }
+
+    filter()
+</script>

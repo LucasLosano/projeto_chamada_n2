@@ -13,7 +13,7 @@
         <br>
 
         <label asp-for="TurmaId"></label>
-        <select class="form-control" asp-for="TurmaId" asp-items='@(new SelectList(ViewBag.Turmas, "Id", "Id"))'></select>
+        <select class="form-control" asp-for="TurmaId" asp-items=@ViewBag.Turmas></select>
         <span class="text-danger" asp-validation-for="TurmaId"></span>
         <br>
         

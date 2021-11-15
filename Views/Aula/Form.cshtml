@@ -6,19 +6,20 @@
 <div class="text-center">
     <form class="form-horizontal" asp-action="Save" asp-controller="Aula">
         <input type="hidden" asp-for="Id">
+        <input type="hidden" asp-for="Data" value=@DateTime.Now>
 
         <label asp-for="MateriaId"></label>
-        <select class="form-control" asp-for="MateriaId" asp-items='@(new SelectList(ViewBag.Materias, "Id", "Nome"))'></select>
+        <select class="form-control" asp-for="MateriaId" asp-items=@ViewBag.Materias></select>
         <span class="text-danger" asp-validation-for="MateriaId"></span>
         <br>
 
         <label asp-for="TurmaId"></label>
-        <select class="form-control" asp-for="TurmaId" asp-items='@(new SelectList(ViewBag.Turmas, "Id", "Id"))'></select>
+        <select class="form-control" asp-for="TurmaId" asp-items=@ViewBag.Turmas></select>
         <span class="text-danger" asp-validation-for="TurmaId"></span>
         <br>
 
         <label asp-for="SalaId"></label>
-        <select class="form-control" asp-for="SalaId" asp-items='@(new SelectList(ViewBag.Salas, "Id", "Id"))'></select>
+        <select class="form-control" asp-for="SalaId" asp-items=@ViewBag.Salas></select>
         <span class="text-danger" asp-validation-for="SalaId"></span>
         <br>
         

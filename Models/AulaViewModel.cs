@@ -10,5 +10,6 @@ namespace ProjetoN2.Models
         public int TurmaId { get; set; }
         public string TurmaNome { get; set; }
         public int SalaId { get; set; }
+        public int ProfessorId { get; set; }
     }
 }
