@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using ProjetoN2.DAO;
-using ProjetoN2.Enums;
-using ProjetoN2.Models;
+using Volare.DAO;
+using Volare.Enums;
+using Volare.Models;
 
-namespace ProjetoN2.Service
+namespace Volare.Service
 {
     public class SeedingService : ISeedingService
     {
@@ -17,6 +17,7 @@ namespace ProjetoN2.Service
         private CursoDAO cursoDAO;
         private AulaDAO aulaDAO;
         private AlunoDAO alunoDAO;
+        private ChamadaDAO chamadaDAO;
 
         public SeedingService()
         {
@@ -27,6 +28,7 @@ namespace ProjetoN2.Service
             cursoDAO = new CursoDAO();
             aulaDAO = new AulaDAO();
             alunoDAO = new AlunoDAO();
+            chamadaDAO = new ChamadaDAO();
         }
         public void Seed()
         {
@@ -48,11 +50,9 @@ namespace ProjetoN2.Service
                 
                 List<SalaViewModel> salas = new List<SalaViewModel>();
                 salas.AddRange( new List<SalaViewModel>(){
-                    new SalaViewModel(){ Capacidade = 5},
-                    new SalaViewModel(){ Capacidade = 10},
-                    new SalaViewModel(){ Capacidade = 15},
-                    new SalaViewModel(){ Capacidade = 20},
-                    new SalaViewModel(){ Capacidade = 25}
+                    new SalaViewModel(){ Capacidade = 40},
+                    new SalaViewModel(){ Capacidade = 40},
+                    new SalaViewModel(){ Capacidade = 40}
                 });
 
                 foreach (var item in salas)
@@ -95,13 +95,10 @@ namespace ProjetoN2.Service
                 }
                 
                 List<AlunoViewModel> alunos = new List<AlunoViewModel>();
-                alunos.AddRange( new List<AlunoViewModel>(){
-                    new AlunoViewModel(){ Nome = "Aluno1",  TurmaId = 1},
-                    new AlunoViewModel(){ Nome = "Aluno2",  TurmaId = 1},
-                    new AlunoViewModel(){ Nome = "Aluno3",  TurmaId = 1},
-                    new AlunoViewModel(){ Nome = "Aluno4",  TurmaId = 1},
-                    new AlunoViewModel(){ Nome = "Aluno15",  TurmaId = 1},
-                });
+                for (int i = 1; i <= 40; i++)
+                {
+                    alunos.Add( new AlunoViewModel(){Nome = "Aluno" + i, TurmaId = 1});
+                }
 
                 foreach (var item in alunos)
                 {
@@ -111,9 +108,10 @@ namespace ProjetoN2.Service
                 List<MateriaViewModel> materias = new List<MateriaViewModel>();
                 materias.AddRange( new List<MateriaViewModel>(){
                     new MateriaViewModel(){ Nome = "Materia1",  ProfessorId = 1, CursoId = 1},
-                    new MateriaViewModel(){ Nome = "Materia2",  ProfessorId = 2, CursoId = 2},
+                    new MateriaViewModel(){ Nome = "Materia2",  ProfessorId = 2, CursoId = 1},
                     new MateriaViewModel(){ Nome = "Materia3",  ProfessorId = 3, CursoId = 1},
-                    new MateriaViewModel(){ Nome = "Materia4",  ProfessorId = 4, CursoId = 2}
+                    new MateriaViewModel(){ Nome = "Materia4",  ProfessorId = 1, CursoId = 1},
+                    new MateriaViewModel(){ Nome = "Materia5",  ProfessorId = 2, CursoId = 1},
                 });
 
                 foreach (var item in materias)
@@ -121,18 +119,37 @@ namespace ProjetoN2.Service
                     materiaDAO.Insert(item);
                 }
 
+                DateTime dateTime = DateTime.UtcNow;
+                TimeSpan ts = new TimeSpan(19, 15, 0);
+                dateTime = dateTime.Date + ts;
                 List<AulaViewModel> aulas = new List<AulaViewModel>();
-                aulas.AddRange( new List<AulaViewModel>(){
-                    new AulaViewModel(){ MateriaId = 1, TurmaId = 1, SalaId = 1, Data = DateTime.UtcNow },
-                    new AulaViewModel(){ MateriaId = 2, TurmaId = 1, SalaId = 2, Data = DateTime.UtcNow },
-                    new AulaViewModel(){ MateriaId = 3, TurmaId = 1, SalaId = 3, Data = DateTime.UtcNow },
-                    new AulaViewModel(){ MateriaId = 4, TurmaId = 1, SalaId = 4, Data = DateTime.UtcNow }
-                });
+                for (int i = 0; i < 20; i++)
+                {
+                    dateTime = dateTime.AddDays(2);
+                    aulas.AddRange( new List<AulaViewModel>(){
+                        new AulaViewModel(){ MateriaId = 1, TurmaId = 1, SalaId = 1, Data = dateTime },
+                        new AulaViewModel(){ MateriaId = 2, TurmaId = 1, SalaId = 2, Data = dateTime.AddHours(2) },
+                        new AulaViewModel(){ MateriaId = 3, TurmaId = 1, SalaId = 3, Data = dateTime.AddDays(1) },
+                        new AulaViewModel(){ MateriaId = 4, TurmaId = 1, SalaId = 1, Data = dateTime.AddDays(1).AddHours(2) }
+                    });
+                }
 
                 foreach (var item in aulas)
                 {
                     aulaDAO.Insert(item);
                 }
+
+                foreach (var aula in aulaDAO.SelectAll())
+                {
+                    var listaAlunos = alunoDAO.SelectAll();
+                    listaAlunos.RemoveAll(a => new Random().Next(1,11) == 1);
+
+                    foreach (var item in listaAlunos)
+                    {
+                        chamadaDAO.Insert(new ChamadaViewModel(){ AulaId = aula.Id, AlunoId = item.Id});
+                    }
+                }
+                
             }
         }
     }

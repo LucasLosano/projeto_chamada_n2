@@ -1,10 +1,10 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ProjetoN2.DAO;
-using ProjetoN2.Models;
+using Volare.DAO;
+using Volare.Models;
 
-namespace ProjetoN2.Controllers
+namespace Volare.Controllers
 {
     public class AulaController : SuperController<AulaViewModel>
     {

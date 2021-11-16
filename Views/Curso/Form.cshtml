@@ -1,4 +1,4 @@
-@model ProjetoN2.Models.CursoViewModel
+@model Volare.Models.CursoViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -11,7 +11,7 @@
         <span class="text-danger" asp-validation-for="Nome"></span>
         <br>
         <label asp-for="Periodo"></label>
-        <select class="form-control" asp-for="Periodo" asp-items="Html.GetEnumSelectList<ProjetoN2.Enums.EPeriodo>()"></select>
+        <select class="form-control" asp-for="Periodo" asp-items="Html.GetEnumSelectList<Volare.Enums.EPeriodo>()"></select>
         <span class="text-danger" asp-validation-for="Nome"></span>
         <br>
 

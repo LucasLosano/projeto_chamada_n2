@@ -1,6 +1,6 @@
-using ProjetoN2.Enums;
+using Volare.Enums;
 
-namespace ProjetoN2.Models
+namespace Volare.Models
 {
     public class CursoViewModel : SuperViewModel
     {

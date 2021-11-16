@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using ProjetoN2.Helper;
-using ProjetoN2.Models;
+using Volare.Helper;
+using Volare.Models;
 
-namespace ProjetoN2.DAO
+namespace Volare.DAO
 {
     public class ChamadaDAO
     {
@@ -31,7 +31,7 @@ namespace ProjetoN2.DAO
             return chamadaViewModel;
         }
 
-        internal object SelectAll(ChamadaViewModel model = null)
+        public List<ChamadaViewModel> SelectAll(ChamadaViewModel model = null)
         {
             SqlParameter[] parameters = null;
             if(model != null)
@@ -59,10 +59,9 @@ namespace ProjetoN2.DAO
             return parameters.ToArray();
         }
 
-
         public void Insert(ChamadaViewModel model)
         {
-            throw new NotImplementedException();
+            HelperDAO.ExecuteProcedure("sp_insert_" + Table, SetParameters(model));
         }
     }
 }

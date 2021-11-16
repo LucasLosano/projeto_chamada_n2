@@ -1,7 +1,9 @@
-@model IEnumerable<ProjetoN2.Models.ChamadaViewModel>
+@model IEnumerable<Volare.Models.ChamadaViewModel>
 @{
     ViewData["Title"] = "Home Page";
 }
+
+<canvas id="line-chart" width="800" height="450"></canvas>
 
 <div class="text-center">
     <h3>Chamadas</h3>
@@ -36,9 +38,11 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
     function filter() {
-        var linkAPI = '/Chamada/Table';
+        let linkAPI = '/Chamada/Table';
         $.ajax({
             url: linkAPI,
             data: {
@@ -47,10 +51,60 @@
                 AulaId: $("#AulaId").val()
             },
             success: function (dados) {
-                $("#table").html(dados)
+                $("#table").html(dados);
             }
         });
     }
-
     filter()
+
+    function test() {
+        let linkAPI = '/Dashboard/Aluno';
+        $.ajax({
+            url: linkAPI,
+            data: {
+                Id: 1
+            },
+            success: function (dados) {
+                console.log(dados);
+                console.log(dados.map(x => x.materiaNome));
+                new Chart(document.getElementById("line-chart"), {
+                    type: 'bar',
+                    data: {
+                        labels: dados.map(x => x.materiaNome),
+                        datasets: [
+                            { 
+                                data: dados.map(x => x.presencas),
+                                label: "Presenças",
+                                backgroundColor: "#3e95cd"
+                            },
+                            { 
+                                data: dados.map(x => x.totalAulas),
+                                label: "Total de Aulas",
+                                backgroundColor: "#c45850"
+                            },
+                        ]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Chart.js Bar Chart - Stacked'
+                            },
+                            },
+                            responsive: true,
+                            scales: {
+                            x: {
+                                stacked: true,
+                            },
+                            y: {
+                                stacked: true
+                            }
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+    test();
 </script>

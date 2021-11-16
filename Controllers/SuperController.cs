@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using ProjetoN2.DAO;
-using ProjetoN2.Helper;
-using ProjetoN2.Models;
+using Volare.DAO;
+using Volare.Helper;
+using Volare.Models;
 
-namespace ProjetoN2.Controllers
+namespace Volare.Controllers
 {
     public class SuperController<T> : Controller where T : SuperViewModel
     {

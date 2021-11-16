@@ -2,9 +2,9 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ProjetoN2.DAO;
-using ProjetoN2.Helper;
-using ProjetoN2.Models;
+using Volare.DAO;
+using Volare.Helper;
+using Volare.Models;
 
 namespace Volare.Controllers
 {
@@ -12,14 +12,17 @@ namespace Volare.Controllers
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            ViewBag.Logged = false;
-            if (ControllerHelper.IsUserOn(HttpContext.Session))
+            if (!ControllerHelper.IsUserOn(HttpContext.Session))
+            {
+                ViewBag.Logged = false;
+                context.Result = RedirectToAction("Index", "Home");
+            }
+            else
             {
                 ViewBag.Logged = true;
                 ViewBag.Username = ControllerHelper.GetUsername(HttpContext.Session);
+                base.OnActionExecuting(context);
             }
-
-            base.OnActionExecuting(context);
         }
         
         ChamadaDAO DAO = new ChamadaDAO();

@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using ProjetoN2.Helper;
-using ProjetoN2.Models;
+using Volare.Helper;
+using Volare.Models;
 
-namespace ProjetoN2.DAO
+namespace Volare.DAO
 {
     public class UserDAO
     {

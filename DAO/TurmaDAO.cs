@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using ProjetoN2.Models;
+using Volare.Models;
 
-namespace ProjetoN2.DAO
+namespace Volare.DAO
 {
     public class TurmaDAO : SuperDAO<TurmaViewModel>
     {
@@ -27,7 +27,7 @@ namespace ProjetoN2.DAO
             {
                 turmaViewModel.CursoId = Convert.ToInt32(row["curso_id"]);
             }
-
+            turmaViewModel.QuantidadeAlunos = Convert.ToInt32(row["quantidade_alunos"]);
             return turmaViewModel;
         }
 
@@ -40,6 +40,7 @@ namespace ProjetoN2.DAO
             }
             parameters.Add(new SqlParameter("semestre", model.Semestre));
             parameters.Add(new SqlParameter("curso_id", model.CursoId));
+            parameters.Add(new SqlParameter("quantidade_alunos", model.QuantidadeAlunos));
 
             return parameters.ToArray();
         }

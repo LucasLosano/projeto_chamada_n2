@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using ProjetoN2.Enums;
-using ProjetoN2.Models;
+using Volare.Enums;
+using Volare.Models;
 
-namespace ProjetoN2.DAO
+namespace Volare.DAO
 {
     public class CursoDAO : SuperDAO<CursoViewModel>
     {

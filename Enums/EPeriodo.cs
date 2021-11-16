@@ -1,4 +1,4 @@
-namespace ProjetoN2.Enums
+namespace Volare.Enums
 {
     public enum EPeriodo
     {

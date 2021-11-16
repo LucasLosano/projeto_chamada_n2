@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProjetoN2.DAO;
-using ProjetoN2.Models;
+using Volare.DAO;
+using Volare.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProjetoN2.Controllers
+namespace Volare.Controllers
 {
     public class SalaController : SuperController<SalaViewModel>
     {

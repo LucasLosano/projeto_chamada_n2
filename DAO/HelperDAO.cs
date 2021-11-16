@@ -1,7 +1,7 @@
 using System.Data;
 using System.Data.SqlClient;
 
-namespace ProjetoN2.DAO
+namespace Volare.DAO
 {
     public static class HelperDAO
     {

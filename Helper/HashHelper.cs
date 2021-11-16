@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace ProjetoN2.Helper
+namespace Volare.Helper
 {
     public static class HashHelper
     {

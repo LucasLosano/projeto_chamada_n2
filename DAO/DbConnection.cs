@@ -1,6 +1,6 @@
 using System.Data.SqlClient;
 
-namespace ProjetoN2.DAO
+namespace Volare.DAO
 {
     public class DbConnection
     {

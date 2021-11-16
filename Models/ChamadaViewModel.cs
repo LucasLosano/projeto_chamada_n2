@@ -1,6 +1,6 @@
 using System;
 
-namespace ProjetoN2.Models
+namespace Volare.Models
 {
     public class ChamadaViewModel
     {

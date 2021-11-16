@@ -1,4 +1,4 @@
-@model IEnumerable<ProjetoN2.Models.TurmaViewModel>
+@model IEnumerable<Volare.Models.TurmaViewModel>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -14,21 +14,23 @@
                 <th>Id</th>
                 <th>Curso</th>
                 <th>Semestre</th>
+                <th>QuantidadeAlunos</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var turma in Model)
             {
-                <tr>
-                    <td>@turma.Id</td>
-                    <td>@turma.CursoNome</td>
-                    <td>@turma.Semestre</td>
-                    <td>
-                        <a href="/turma/Update?id=@turma.Id" class="btn btn-outline-warning">Atualizar</a>
-                        <a href="/turma/Delete?id=@turma.Id" class="btn btn-outline-danger">Delete</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>@turma.Id</td>
+                <td>@turma.CursoNome</td>
+                <td>@turma.Semestre</td>
+                <td>@turma.QuantidadeAlunos</td>
+                <td>
+                    <a href="/turma/Update?id=@turma.Id" class="btn btn-outline-warning">Atualizar</a>
+                    <a href="/turma/Delete?id=@turma.Id" class="btn btn-outline-danger">Delete</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

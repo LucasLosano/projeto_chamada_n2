@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace ProjetoN2.Helper
+namespace Volare.Helper
 {
     public static class ControllerHelper
     {
