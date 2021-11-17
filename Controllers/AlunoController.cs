@@ -18,6 +18,11 @@ namespace Volare.Controllers
         {
             return PartialView("Table",DAO.SelectAll(model));
         }
+        public IActionResult Aluno(int id)
+        {
+            ViewBag.AlunoId = id;
+            return View(DAO.SelectById(id));
+        }
 
         protected override void ValidateModel(AlunoViewModel model)
         {
@@ -28,7 +33,7 @@ namespace Volare.Controllers
                 ModelState.AddModelError("Nome", "Nome não pode ser vazio.");
             }
 
-            if(((AlunoDAO)DAO).turmaDAO.SelectById(model.TurmaId) == null)
+            if(((AlunoDAO)DAO).turmaDAO.SelectAll(new TurmaViewModel(){ Id = model.TurmaId}) == null)
             {
                 ModelState.AddModelError("TurmaId", "Nenhuma turma existe.");
             }
@@ -36,7 +41,7 @@ namespace Volare.Controllers
 
         protected override void PrepareView()
         {
-            var turmas = (new SelectList(((AlunoDAO)DAO).turmaDAO.SelectAll(), "Id", "Id")).ToList();
+            var turmas = (new SelectList(((AlunoDAO)DAO).turmaDAO.SelectAll(), "Id", "Nome")).ToList();
             turmas.Insert(0,new SelectListItem("Selecione uma turma","0"));
             ViewBag.Turmas = turmas;
         }

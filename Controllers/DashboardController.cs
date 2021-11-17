@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Volare.DAO;
 using Volare.Helper;
+using Volare.Models;
 
 namespace Volare.Controllers
 {
@@ -24,7 +25,7 @@ namespace Volare.Controllers
         DashboardDAO DAO = new DashboardDAO();
         public IActionResult Turma(int id)
         {
-            return Json(DAO.SelectAll(id,"sp_turma_dashboard"));
+            return Json(DAO.SelectAll(id,"sp_turma_dashboard"));         
         }
         public IActionResult Aluno(int id)
         {

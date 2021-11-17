@@ -17,6 +17,11 @@
         <span class="text-danger" asp-validation-for="Semestre"></span>
         <br>
 
+        <label asp-for="QuantidadeAlunos"></label>
+        <input min="5" max="45" class="form-control" asp-for="QuantidadeAlunos">
+        <span class="text-danger" asp-validation-for="QuantidadeAlunos"></span>
+        <br>
+
         <button class="btn btn-outline-dark">Salvar</button>
     </form>
 </div>

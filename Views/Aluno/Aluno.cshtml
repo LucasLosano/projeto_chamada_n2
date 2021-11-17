@@ -1,0 +1,65 @@
+@model Volare.Models.AlunoViewModel
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Id</td>
+            <td>@Model.Nome</td>
+        </tr>
+    </tbody>
+</table>
+<br><br>
+
+<canvas id="line-chart" width="600" height="200"></canvas>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    function Dashboard() {
+        let linkAPI = '/Dashboard/Aluno';
+        $.ajax({
+            url: linkAPI,
+            data: {
+                Id: "@ViewBag.AlunoId"
+            },
+            success: function (dados) {
+                console.log(dados);
+                console.log(dados.map(x => x.materiaNome));
+                new Chart(document.getElementById("line-chart"), {
+                    type: 'bar',
+                    data: {
+                        labels: dados.map(x => x.materiaNome),
+                        datasets: [
+                            { 
+                                data: dados.map(x => x.presencas),
+                                label: "Presenças",
+                                backgroundColor: "#3e95cd"
+                            },
+                            { 
+                                data: dados.map(x => x.totalAulas),
+                                label: "Total de Aulas",
+                                backgroundColor: "#c45850"
+                            },
+                        ]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Presenças por materia'
+                            },
+                            },
+                            responsive: true
+                    }
+                });
+            }
+        });
+    }
+    Dashboard();
+</script>

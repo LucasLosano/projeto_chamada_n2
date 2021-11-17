@@ -1,0 +1,69 @@
+@model Volare.Models.TurmaViewModel
+<table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Curso</th>
+                <th>Semestre</th>
+                <th>QuantidadeAlunos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Id</td>
+                <td>@Model.CursoNome</td>
+                <td>@Model.Semestre</td>
+                <td>@Model.QuantidadeAlunos</td>
+            </tr>
+        </tbody>
+    </table>
+<br><br>
+
+<canvas id="line-chart" width="600" height="200"></canvas>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    function Dashboard() {
+        let linkAPI = '/Dashboard/Turma';
+        $.ajax({
+            url: linkAPI,
+            data: {
+                Id: "@ViewBag.TurmaId"
+            },
+            success: function (dados) {
+                console.log(dados);
+                console.log(dados.map(x => x.alunoNome));
+                new Chart(document.getElementById("line-chart"), {
+                    type: 'bar',
+                    data: {
+                        labels: dados.map(x => x.alunoNome),
+                        datasets: [
+                            { 
+                                data: dados.map(x => x.presencas),
+                                label: "Presenças",
+                                backgroundColor: "#3e95cd"
+                            },
+                            { 
+                                data: dados.map(x => x.totalAulas),
+                                label: "Total de Aulas",
+                                backgroundColor: "#c45850"
+                            },
+                        ]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Presenças por aluno'
+                            },
+                            },
+                            responsive: true
+                    }
+                });
+            }
+        });
+    }
+    Dashboard();
+</script>

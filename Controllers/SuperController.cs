@@ -86,8 +86,14 @@ namespace Volare.Controllers
         {
             try
             {
-                DAO.Delete(id);
+                using(var transaction = new System.Transactions.TransactionScope())
+                {
+                    DAO.Delete(id);
+                    transaction.Complete();
+                }
+                
                 return RedirectToAction(IndexViewName);
+                    
             }
             catch (System.Exception e)
             {
@@ -99,20 +105,25 @@ namespace Volare.Controllers
         {
             try
             {
-                ValidateModel(model);
-                if(!ModelState.IsValid)
+                using(var transaction = new System.Transactions.TransactionScope())
                 {
-                    PrepareView();
-                    return View(FormViewName, model);
-                }
+                    ValidateModel(model);
+                    if(!ModelState.IsValid)
+                    {
+                        PrepareView();
+                        return View(FormViewName, model);
+                    }
 
-                if(model.Id == 0)
-                {
-                    DAO.Insert(model);
-                }
-                else
-                {
-                    DAO.Update(model);
+                    if(model.Id == 0)
+                    {
+                        DAO.Insert(model);
+                    }
+                    else
+                    {
+                        DAO.Update(model);
+                    }
+
+                    transaction.Complete();
                 }
                 return RedirectToAction(IndexViewName);
             }

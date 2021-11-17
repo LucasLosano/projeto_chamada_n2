@@ -27,7 +27,8 @@ namespace Volare.Controllers
                 ModelState.AddModelError("MateriaId", "Nenhuma matéria existe");
             }
 
-            if(((AulaDAO)DAO).turmaDAO.SelectById(model.TurmaId) == null)
+            
+            if(((AulaDAO)DAO).turmaDAO.SelectAll(new TurmaViewModel(){ Id = model.TurmaId}) == null)
             {
                 ModelState.AddModelError("TurmaId", "Nenhuma turma existe");
             }
@@ -48,7 +49,7 @@ namespace Volare.Controllers
             salas.Insert(0,new SelectListItem("Selecione uma sala","0"));
             ViewBag.Salas = salas;
             
-            var turmas = (new SelectList(((AulaDAO)DAO).turmaDAO.SelectAll(), "Id", "Id")).ToList();
+            var turmas = (new SelectList(((AulaDAO)DAO).turmaDAO.SelectAll(), "Id", "Nome")).ToList();
             turmas.Insert(0,new SelectListItem("Selecione uma turma","0"));
             ViewBag.Turmas = turmas;
 

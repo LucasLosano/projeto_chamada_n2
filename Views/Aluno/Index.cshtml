@@ -26,28 +26,7 @@
     <br>
 
     <table id="table" class="table table-striped table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th>Id</th>
-                <th>Nome</th>
-                <th>Turma</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var aluno in Model)
-            {
-                <tr>
-                    <td>@aluno.Id</td>
-                    <td>@aluno.Nome</td>
-                    <td>@aluno.TurmaNome</td>
-                    <td>
-                        <a href="/aluno/Update?id=@aluno.Id" class="btn btn-outline-warning">Atualizar</a>
-                        <a href="/aluno/Delete?id=@aluno.Id" class="btn btn-outline-danger">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
+        
     </table>
 
 </div>
@@ -64,4 +43,5 @@
             }
         });
     }
+    filter()
 </script>

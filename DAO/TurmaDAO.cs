@@ -19,7 +19,11 @@ namespace Volare.DAO
             TurmaViewModel turmaViewModel = new TurmaViewModel();
             turmaViewModel.Id = Convert.ToInt32(row["turma_id"]);
             turmaViewModel.Semestre = Convert.ToInt32(row["turma_semestre"]);
-            if(row.Table.Columns.Contains("curso_nome"))
+            if (row.Table.Columns.Contains("turma_nome"))
+            {
+                turmaViewModel.Nome = row["turma_nome"].ToString();
+            }
+            if (row.Table.Columns.Contains("curso_nome"))
             {
                 turmaViewModel.CursoNome = row["curso_nome"].ToString();
             }
@@ -38,9 +42,12 @@ namespace Volare.DAO
             {
                 parameters.Add(new SqlParameter("id",model.Id));
             }
-            parameters.Add(new SqlParameter("semestre", model.Semestre));
-            parameters.Add(new SqlParameter("curso_id", model.CursoId));
-            parameters.Add(new SqlParameter("quantidade_alunos", model.QuantidadeAlunos));
+            if(model.Semestre != 0)
+            {
+                parameters.Add(new SqlParameter("semestre", model.Semestre));
+                parameters.Add(new SqlParameter("curso_id", model.CursoId));
+                parameters.Add(new SqlParameter("quantidade_alunos", model.QuantidadeAlunos));
+            }
 
             return parameters.ToArray();
         }

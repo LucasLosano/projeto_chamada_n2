@@ -35,7 +35,10 @@ namespace Volare.Controllers
         {
             return View();
         }
-
+        public IActionResult Sobre()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
@@ -43,30 +46,48 @@ namespace Volare.Controllers
 
         public IActionResult Login(UserViewModel userViewModel)
         {
-            if (userDAO.IsUserValid(userViewModel))
+            try
             {
-                HttpContext.Session.SetString("Logged", "true");
-                HttpContext.Session.SetString("Username", userViewModel.Username);
-                return RedirectToAction("index", "Home");
+                if (userDAO.IsUserValid(userViewModel))
+                {
+                    HttpContext.Session.SetString("Logged", "true");
+                    HttpContext.Session.SetString("Username", userViewModel.Username);
+                    return RedirectToAction("index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("Error","Usuário ou senha inválidos");
+                    return View("Index",userViewModel);
+                }
             }
-            else
+            catch (System.Exception e)
             {
-                ModelState.AddModelError("Error","Usuário ou senha inválidos");
-                return View("Index",userViewModel);
+                return View("Error", new ErrorViewModel(e.ToString()));
             }
         }
         public IActionResult Register(UserViewModel userViewModel)
         {
-            Validate(userViewModel);
-            if (!ModelState.IsValid)
+            try
             {
-                return RedirectToAction("index", userViewModel);
-            }
+                Validate(userViewModel);
+                if (!ModelState.IsValid)
+                {
+                    return RedirectToAction("index", userViewModel);
+                }
 
-            HttpContext.Session.SetString("Logged", "true");
-            HttpContext.Session.SetString("Username", userViewModel.Username);
-            userDAO.Insert(userViewModel);
-            return RedirectToAction("Index");
+                HttpContext.Session.SetString("Logged", "true");
+                HttpContext.Session.SetString("Username", userViewModel.Username);
+                using(var transaction = new System.Transactions.TransactionScope())
+                {
+                    userDAO.Insert(userViewModel);
+                    transaction.Complete();
+                }
+                return RedirectToAction("Index");
+            }
+            catch (System.Exception e)
+            {
+                return View("Error", new ErrorViewModel(e.ToString()));
+            }
         }
 
         private void Validate(UserViewModel userViewModel)
@@ -75,11 +96,11 @@ namespace Volare.Controllers
 
             if(userDAO.IsUsernameInUse(userViewModel.Username))
             {
-                ModelState.AddModelError("Error","Usuário em uso.");
+                ModelState.AddModelError("Username","Usuário em uso.");
             }
             if(userViewModel.ConfirmPassword != userViewModel.Password)
             {
-                ModelState.AddModelError("Error","As senhas não batem.");
+                ModelState.AddModelError("ConfirmPassword","As senhas não batem.");
             }
         }
 
