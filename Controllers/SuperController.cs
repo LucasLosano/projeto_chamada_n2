@@ -91,9 +91,16 @@ namespace Volare.Controllers
                     DAO.Delete(id);
                     transaction.Complete();
                 }
-                
+
                 return RedirectToAction(IndexViewName);
                     
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                ViewBag.SQLError = "Ocorreu um erro inesperado. Por favor entre em contato com a equipe VOLARE.";
+                var modelList = DAO.SelectAll();
+                PrepareView();
+                return View("Index", modelList);
             }
             catch (System.Exception e)
             {

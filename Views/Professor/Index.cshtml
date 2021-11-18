@@ -7,7 +7,7 @@
     <h3>Professores</h3>
     <a class="btn btn-striped btn-outline-dark" href="/Professor/Create">Adicionar</a>
     <br><br><br>
-
+    <canvas id="line-chart" width="600" height="200"></canvas>
     <table class="table table-striped table-bordered">
         <thead class="thead-dark">
             <tr>
@@ -32,3 +32,41 @@
     </table>
 
 </div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    function Dashboard() {
+        let linkAPI = '/Dashboard/Professor';
+        $.ajax({
+            url: linkAPI,
+            success: function (dados) {
+                console.log(dados);
+                console.log(dados.map(x => x.materiaNome));
+                new Chart(document.getElementById("line-chart"), {
+                    type: 'bar',
+                    data: {
+                        labels: dados.map(x => x.professorNome),
+                        datasets: [
+                            { 
+                                data: dados.map(x => x.totalMateria),
+                                label: "Total de Materias",
+                                backgroundColor: "#3e95cd"
+                            }
+                        ]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Materia por professor'
+                            },
+                            },
+                            responsive: true
+                    }
+                });
+            }
+        });
+    }
+    Dashboard();
+</script>

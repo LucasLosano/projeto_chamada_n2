@@ -1,4 +1,7 @@
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -36,6 +39,21 @@ namespace Volare.Controllers
         public IActionResult Table(ChamadaViewModel Model)
         {
             return PartialView(DAO.SelectAll(Model));
+        }
+
+        public IActionResult Teste()
+        {
+            ApiHelper.InitializeClient();
+            string url = "https://pokeapi.co/api/v2/pokemon/bulbasaur";
+            using(HttpResponseMessage response = ApiHelper.ApiClient.GetAsync(url).Result)
+            {
+                if(response.IsSuccessStatusCode)
+                {
+                    string resposta = response.Content.ReadAsStringAsync().Result;
+                    return Content(resposta);
+                }
+            }
+            return Ok();
         }
 
         public void PrepareView()

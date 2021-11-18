@@ -24,6 +24,10 @@ namespace Volare.DAO
             aulaViewModel.Id = Convert.ToInt32(row["aula_id"]);
             aulaViewModel.Data = Convert.ToDateTime(row["aula_data"]);
             aulaViewModel.SalaId = Convert.ToInt32(row["sala_id"]);
+            if(row.Table.Columns.Contains("turma_id"))
+            {
+                aulaViewModel.TurmaId = Convert.ToInt32(row["turma_id"]);
+            }
             if(row.Table.Columns.Contains("materia_nome"))
             {
                 aulaViewModel.MateriaNome = row["materia_nome"].ToString();
@@ -32,7 +36,6 @@ namespace Volare.DAO
             else
             {
                 aulaViewModel.MateriaId = Convert.ToInt32(row["materia_id"]);
-                aulaViewModel.TurmaId = Convert.ToInt32(row["turma_id"]);
             }
 
             return aulaViewModel;

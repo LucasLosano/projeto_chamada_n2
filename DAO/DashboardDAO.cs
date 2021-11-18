@@ -19,6 +19,13 @@ namespace Volare.DAO
                 turmaDashboardViewModel.totalAulas = Convert.ToInt32(row["total_aulas"]);
                 return turmaDashboardViewModel;
             }
+            else if(sp_procedure == "sp_professor_dashboard")
+            {
+                ProfessorDashboardViewModel professorDashboardViewModel = new ProfessorDashboardViewModel();
+                professorDashboardViewModel.ProfessorNome = row["professor_nome"].ToString();
+                professorDashboardViewModel.TotalMateria = Convert.ToInt32(row["total_materia"]);
+                return professorDashboardViewModel;
+            }
 
             AlunoDashboardViewModel alunoDashboardViewModel = new AlunoDashboardViewModel();
             alunoDashboardViewModel.MateriaNome = row["materia_nome"].ToString();
@@ -28,9 +35,13 @@ namespace Volare.DAO
             return alunoDashboardViewModel;
         }
 
-        public object SelectAll(int id, string sp_procedure)
+        public object SelectAll(string sp_procedure, int id = 0)
         {
-            SqlParameter[] parameters = new SqlParameter[]{ new SqlParameter("id", id)};
+            SqlParameter[] parameters = null;
+            if(id != 0)
+            {
+                parameters = new SqlParameter[]{ new SqlParameter("id", id)};
+            }
             var dataSet = HelperDAO.ExecuteProcedureSelect(sp_procedure, parameters);
             return dataSet.AsEnumerable().Select(row => SetModel(row, sp_procedure)).ToList();
         }

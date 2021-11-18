@@ -25,11 +25,15 @@ namespace Volare.Controllers
         DashboardDAO DAO = new DashboardDAO();
         public IActionResult Turma(int id)
         {
-            return Json(DAO.SelectAll(id,"sp_turma_dashboard"));         
+            return Json(DAO.SelectAll("sp_turma_dashboard", id));         
         }
         public IActionResult Aluno(int id)
         {
-            return Json(DAO.SelectAll(id,"sp_aluno_dashboard"));
+            return Json(DAO.SelectAll("sp_aluno_dashboard", id));
+        }
+        public IActionResult Professor()
+        {
+            return Json(DAO.SelectAll(sp_procedure:"sp_professor_dashboard"));
         }
     }
 }
