@@ -26,14 +26,15 @@ namespace Volare.Controllers
             {
                 ModelState.AddModelError("Semestre", "Semestre deve estar entre 1 e 10");
             }
-            if(model.QuantidadeAlunos < 1 || 10 < model.QuantidadeAlunos)
-            {
-                ModelState.AddModelError("QuantidadeAlunos", "Quantidade de alunos deve estar entre 5 e 45");
-            }
-
+            
             if(((TurmaDAO)DAO).cursoDAO.SelectById(model.CursoId) == null)
             {
                 ModelState.AddModelError("CursoId", "Curso não existe");
+            }
+
+            if(ModelState.IsValid && DAO.SelectAll().Where(t => t.CursoId == model.CursoId && t.Semestre == model.Semestre ).Count() != 0)
+            {
+                ModelState.AddModelError("CursoId", "Já existe uma turma com esse curso e semestre");
             }
         }
 

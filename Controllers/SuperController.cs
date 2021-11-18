@@ -97,7 +97,7 @@ namespace Volare.Controllers
             }
             catch (System.Data.SqlClient.SqlException e)
             {
-                ViewBag.SQLError = "Ocorreu um erro inesperado. Por favor entre em contato com a equipe VOLARE.";
+                ViewBag.SQLError = e.Message + Environment.NewLine + "Entre em contato com a equipe Volare.";
                 var modelList = DAO.SelectAll();
                 PrepareView();
                 return View("Index", modelList);

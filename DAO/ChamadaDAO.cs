@@ -11,12 +11,15 @@ namespace Volare.DAO
     public class ChamadaDAO
     {
         protected string Table { get; set; } = "chamada";
-        public MateriaDAO materiaDAO;
-        public TurmaDAO turmaDAO;
+        
+        AlunoDAO alunoDAO;
+        AulaDAO aulaDAO;
+        SalaDAO salaDAO;
         public ChamadaDAO()
         {
-            materiaDAO = new MateriaDAO();
-            turmaDAO = new TurmaDAO();
+            alunoDAO = new AlunoDAO();
+            aulaDAO = new AulaDAO();
+            salaDAO = new SalaDAO();
         }
 
         private ChamadaViewModel SetModel(DataRow row)
@@ -62,6 +65,35 @@ namespace Volare.DAO
         public void Insert(ChamadaViewModel model)
         {
             HelperDAO.ExecuteProcedure("sp_insert_" + Table, SetParameters(model));
+        }
+
+        public void InsertFromMongo()
+        {
+            var chamadasDTO  = MongoDAO.GetChamadaData().Where(c => 
+                alunoDAO.SelectById(c.AlunoId) != null && salaDAO.SelectById(c.SalaId) != null
+            ).ToList();
+
+            chamadasDTO.ForEach(c => {
+                c.TurmaId = alunoDAO.SelectById(c.AlunoId).TurmaId;
+            });
+            var chamadasViewModels = chamadasDTO.Select(c =>{
+                var aulaList = aulaDAO.SelectAll(new AulaViewModel(){TurmaId = c.TurmaId, SalaId = c.SalaId,  Data = c.Chegada});
+                ChamadaViewModel chamadaViewModel = null;
+                if(aulaList.Count == 0)
+                {
+                    return chamadaViewModel;
+                }
+                aulaList = aulaList.OrderBy(a => Math.Abs(a.Data.Ticks-c.Chegada.Ticks)).ToList();
+                chamadaViewModel = new ChamadaViewModel(){AlunoId = c.AlunoId, AulaId = aulaList[0].Id};
+                return chamadaViewModel;
+            }).ToList();
+
+            chamadasViewModels.ForEach(c => {
+                if(c != null)
+                {
+                    Insert(c);
+                }
+            });
         }
     }
 }
